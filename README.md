@@ -11,6 +11,12 @@
 | action | Action class name in `includes/Actions` |
 | nonce  | Action: `_wpnonce`                      |
 
+```
+
+let response = await fetch('/public-ajax/?action=Example&nonce=1cb2c8e383');
+
+```
+
 ### Action Class Structure
 
 
