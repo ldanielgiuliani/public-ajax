@@ -51,7 +51,7 @@ class Route {
 				$params = self::get_args( $action_class::args(), $action_class::method() );
 				$nonce  = $params['nonce'] ?? '';
 
-				if ( Auth::check( $nonce ) && is_array( $params ) ) {
+				if ( Auth::check( $nonce ) ) {
 					return self::respond( $action_class::act( $params ), 200 );
 				} else {
 					return self::respond( false, 401 );
@@ -73,7 +73,6 @@ class Route {
 
 		if ( class_exists( $class ) ) {
 			return $class;
-
 		}
 
 	}
@@ -113,9 +112,12 @@ class Route {
 	 */
 	protected static function sanitize( $input, $accept_args ) {
 		$output = false;
-		foreach ( $input as $key => $val ) {
-			if ( in_array( $key, $accept_args, true ) ) {
-				$output[ $key ] = sanitize_text_field( $val );
+
+		if ( $input ) {
+			foreach ( $input as $key => $val ) {
+				if ( in_array( $key, $accept_args, true ) ) {
+					$output[ $key ] = sanitize_text_field( $val );
+				}
 			}
 		}
 
