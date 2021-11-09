@@ -1,0 +1,15 @@
+{
+    "name": "dan/public-ajax",
+    "autoload": {
+        "psr-4": {
+            "Dan\\PublicAjax\\": "includes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniel Giuliani",
+            "email": "daniel.giuliani@xwp.co"
+        }
+    ],
+    "require": {}
+}
