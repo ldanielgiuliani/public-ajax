@@ -24,7 +24,6 @@ class Route {
 	 * @return Route|object
 	 */
 	public static function init() {
-
 		if ( ! self::$instance ) {
 			self::$instance = new self;
 		}
