@@ -140,11 +140,6 @@ class Route {
 		if ( is_int( $response ) && $response > 1 ) {
 			$response    = false;
 			$status_code = $response;
-
-		}
-
-		if ( ! is_null( $status_code ) ) {
-			$status_code = 200;
 		}
 
 		wp_send_json( $response, $status_code );
