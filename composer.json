@@ -2,7 +2,7 @@
     "name": "dan/public-ajax",
     "autoload": {
         "psr-4": {
-            "Dan\\PublicAjax\\": "includes/"
+            "Dan\\PublicAjax\\": "php/"
         }
     },
     "authors": [
