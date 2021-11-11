@@ -14,7 +14,7 @@ The goal of this boilerplate is to have an endpoint that handles the front-facin
 | nonce  | Action name: `_wpnonce` <br> *see [wp_create_nonce()](https://developer.wordpress.org/reference/functions/wp_create_nonce/)* |
 
 ```js
-let response = await fetch('/public-ajax/?action=Example&nonce=1cb2c8e383');
+let response = await fetch('/public-ajax/?action=example&nonce=1cb2c8e383');
 ```
 
 ### Action Class Structure
