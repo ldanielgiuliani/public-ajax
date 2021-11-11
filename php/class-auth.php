@@ -2,10 +2,10 @@
 /**
  * Auth Class.
  *
- * @package Dan\PublicAjax
+ * @package PublicAjax
  */
 
-namespace Dan\PublicAjax;
+namespace PublicAjax;
 
 /**
  * Check if action is authorized

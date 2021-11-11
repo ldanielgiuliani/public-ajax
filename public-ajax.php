@@ -13,16 +13,31 @@
  * Update URI:        https://github.com/ldanielgiuliani/public-ajax
  * Text Domain:       public-ajax
  *
- *  @package Dan\PublicAjax
+ *  @package PublicAjax
  */
 
-namespace Dan\PublicAjax;
-
-// Support for site-level autoloading.
-if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
-	require_once __DIR__ . '/vendor/autoload.php';
+if ( version_compare( phpversion(), '5.6.20', '>=' ) ) {
+	require_once __DIR__ . '/instance.php';
+} else {
+	if ( defined( 'WP_CLI' ) ) {
+		WP_CLI::warning( public_ajax_php_version_text() );
+	} else {
+		add_action( 'admin_notices', 'public_ajax_php_version_error' );
+	}
 }
 
-$plugin = new Plugin();
+/**
+ * Admin notice for incompatible versions of PHP.
+ */
+function public_ajax_php_version_error() {
+	printf( '<div class="error"><p>%s</p></div>', esc_html( public_ajax_php_version_text() ) );
+}
 
-add_action( 'plugins_loaded', [ $plugin, 'init' ] );
+/**
+ * String describing the minimum PHP version.
+ *
+ * @return string
+ */
+function public_ajax_php_version_text() {
+	return esc_html__( 'Public Ajax plugin error: Your version of PHP is too old to run this plugin. You must be running PHP 5.6.20 or higher.', 'public-ajax' );
+}

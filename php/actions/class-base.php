@@ -2,10 +2,10 @@
 /**
  * Example action class.
  *
- * @package Dan\PublicAjax
+ * @package PublicAjax
  */
 
-namespace Dan\PublicAjax\Actions;
+namespace PublicAjax\Actions;
 
 /**
  * Example "action class" for illustrating how this might be use.

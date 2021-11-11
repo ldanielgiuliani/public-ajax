@@ -1,19 +1,16 @@
 # Front-facing Public Ajax
 The goal of this boilerplate is to have an endpoint that handles the front-facing ajax request with basic sanitization and nonce auth.
 
-### TODO 
-Update structures, pattern and WP naming conventions
-
 ## Development
 1. Clone the plugin repository.
-2. Create new action class under `includes/Actions`.
+2. Create new action class under `php/actions`.
 
 **Endpoint**: `/public-ajax/`
 
 ### Required Parameters
 | Key    | Description                             |
 |--------|-----------------------------------------|
-| action | Action class name in `includes/Actions` |
+| action | Action class name in `php/actions`      |
 | nonce  | Action: `_wpnonce`                      |
 
 ```js
@@ -43,5 +40,3 @@ class Example {
 	}
 }
 ```
-
-### TODO: update structures, pattern and WP naming conventions

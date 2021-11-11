@@ -2,53 +2,66 @@
 /**
  * Route class.
  *
- * @package Dan\PublicAjax
+ * @package PublicAjax
  */
 
-namespace Dan\PublicAjax;
+namespace PublicAjax;
+
+use PublicAjax\Plugin;
+use PublicAjax\Auth;
 
 /**
  * Dispatch and respond to requests to internal API
  */
 class Route {
 	/**
-	 * Holds the instance of this class.
+	 * Plugin class.
 	 *
-	 * @var    object
+	 * @var Plugin
 	 */
-	private static $instance;
+	public $plugin;
 
 	/**
-	 * Returns an instance of this class.
+	 * Constructor.
 	 *
-	 * @return Route|object
+	 * @access public
+	 *
+	 * @param Plugin $plugin Plugin instance.
 	 */
-	public static function init() {
-		if ( ! self::$instance ) {
-			self::$instance = new self;
-		}
+	public function __construct( Plugin $plugin ) {
+		$this->plugin = $plugin;
+	}
 
-		return self::$instance;
+	/**
+	 * Initiate the class.
+	 *
+	 * @access public
+	 */
+	public function init() {
+		$this->plugin->add_doc_hooks( $this );
 	}
 
 	/**
 	 * Main router for internal API.
 	 *
 	 * Checks permission, and dispatches and returns, or returns error.
+	 * 
+	 * @action template_redirect, 99, 1
 	 *
 	 * @todo: optimisation and transients?
 	 */
-	public static function do_api() {
+	public function template_redirect() {
 		global $wp_query;
 
-		$action = $wp_query->get( 'action' );
+		$action      = $wp_query->get( 'action' );
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( $_SERVER['REQUEST_URI'] ) : '';
 
-		if ( $action && strpos( $_SERVER['REQUEST_URI'], 'public-ajax' ) ) {
+		if ( $action && strpos( $request_uri, 'public-ajax' ) ) {
 			$action_class = self::action_class( $action );
-
+		
 			if ( $action_class ) {
 				$params = self::get_args( $action_class::args(), $action_class::method() );
-				$nonce  = $params['nonce'] ?? '';
+				$nonce  = isset( $params['nonce'] ) ? $params['nonce'] : '';
 
 				if ( Auth::check( $nonce ) ) {
 					return self::respond( $action_class::act( $params ), 200 );
@@ -86,6 +99,9 @@ class Route {
 	 */
 	protected static function get_args( $accept_args, $method = 'GET' ) {
 		$method = strtoupper( $method );
+
+		// Disable phpcs - false positive. The request is verified on line: 64.
+		// phpcs:disable
 		switch ( $method ) {
 			case 'GET':
 				$input = $_GET;
@@ -96,6 +112,7 @@ class Route {
 			default:
 				return false;
 		}
+		// phpcs:enable
 
 		return self::sanitize( $input, $accept_args );
 
