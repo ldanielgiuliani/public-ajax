@@ -8,10 +8,10 @@ The goal of this boilerplate is to have an endpoint that handles the front-facin
 **Endpoint**: `/public-ajax/`
 
 ### Required Parameters
-| Key    | Description                             |
-|--------|-----------------------------------------|
-| action | Action class name in `php/actions`      |
-| nonce  | Action: `_wpnonce`                      |
+| Key    | Description                                                                                                                  |
+|--------|------------------------------------------------------------------------------------------------------------------------------|
+| action | Format should be in `snake_case` for all requests.                                                                           |
+| nonce  | Action name: `_wpnonce` <br> *see [wp_create_nonce()](https://developer.wordpress.org/reference/functions/wp_create_nonce/)* |
 
 ```js
 let response = await fetch('/public-ajax/?action=Example&nonce=1cb2c8e383');
@@ -19,6 +19,7 @@ let response = await fetch('/public-ajax/?action=Example&nonce=1cb2c8e383');
 
 ### Action Class Structure
 
+Class name will be converted automatically from snake_case format to PascalCase
 
 | Functions | Description                                                                          | Return                   |
 |-----------|--------------------------------------------------------------------------------------|--------------------------|
