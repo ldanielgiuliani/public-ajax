@@ -81,7 +81,7 @@ class Route {
 	 */
 	protected static function action_class( $action ) {
 		$namespace = __NAMESPACE__ . '\\Actions\\';
-		$class     = $namespace . $action;
+		$class     = $namespace . str_replace( '_', '', ucwords( $action, '_' ) );
 
 		if ( class_exists( $class ) ) {
 			return $class;
