@@ -63,7 +63,7 @@ class Route {
 				$nonce  = isset( $_SERVER['HTTP_NONCE'] ) ? sanitize_text_field( $_SERVER['HTTP_NONCE'] ) : '';
 				$params = self::get_args( $action_class::args(), $method );
 
-				if ( Auth::check( $nonce ) ) {
+				if ( ! Auth::check( $nonce ) ) {
 					return self::respond( false, 401 );
 				}
 
