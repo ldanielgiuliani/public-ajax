@@ -39,7 +39,7 @@ class Endpoint {
 	public function init() {
 		$this->plugin->add_doc_hooks( $this );
 
-		add_rewrite_tag( '%action%', '^[a-z0-9_\-]+' );
-		add_rewrite_rule( 'public-ajax/^[a-z0-9_\-]+$/?', 'index.php?action=$matches[1]', 'top' );
+		add_rewrite_tag( '%action%', '([a-z0-9_\-]+)' );
+		add_rewrite_rule( 'public-ajax/([a-z0-9_\-]+)/?', 'index.php?action=$matches[1]', 'top' );
 	}
 }

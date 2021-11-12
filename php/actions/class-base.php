@@ -30,16 +30,6 @@ class Base {
 	 * @return array
 	 */
 	public static function args() {
-		return [ 'nonce' ];
+		return [];
 	}
-
-	/**
-	 * Define the HTTP method this action uses
-	 *
-	 * @return string
-	 */
-	public static function method() {
-		return 'GET';
-	}
-
 }

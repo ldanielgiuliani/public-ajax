@@ -53,21 +53,23 @@ class Route {
 	public function template_redirect() {
 		global $wp_query;
 
-		$action      = $wp_query->get( 'action' );
-		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( $_SERVER['REQUEST_URI'] ) : '';
+		$action = $wp_query->get( 'action' );
 
-		if ( $action && strpos( $request_uri, 'public-ajax' ) ) {
+		if ( $action ) {
 			$action_class = self::action_class( $action );
 		
 			if ( $action_class ) {
-				$params = self::get_args( $action_class::args(), $action_class::method() );
-				$nonce  = isset( $params['nonce'] ) ? $params['nonce'] : '';
+				$method = isset( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( $_SERVER['REQUEST_METHOD'] ) : '';
+				$nonce  = isset( $_SERVER['HTTP_NONCE'] ) ? sanitize_text_field( $_SERVER['HTTP_NONCE'] ) : '';
+				$params = self::get_args( $action_class::args(), $method );
 
 				if ( Auth::check( $nonce ) ) {
-					return self::respond( $action_class::act( $params ), 200 );
-				} else {
 					return self::respond( false, 401 );
 				}
+
+				return self::respond( $action_class::act( $params ), 200 );
+			} else {
+				return self::respond( 404 );
 			}
 		}
 	}
@@ -80,13 +82,14 @@ class Route {
 	 * @return object The class object.
 	 */
 	protected static function action_class( $action ) {
-		$namespace = __NAMESPACE__ . '\\Actions\\';
-		$class     = $namespace . str_replace( '_', '', ucwords( $action, '_' ) );
+		$namespace    = __NAMESPACE__ . '\\Actions\\';
+		$class_action = str_replace( '-', '', ucwords( $action, '-' ) );
+		$class_action = str_replace( '_', '', ucwords( $class_action, '_' ) );
+		$class        = $namespace . $class_action;
 
 		if ( class_exists( $class ) ) {
 			return $class;
 		}
-
 	}
 
 	/**
