@@ -46,7 +46,7 @@ class Route {
 	 *
 	 * Checks permission, and dispatches and returns, or returns error.
 	 * 
-	 * @action template_redirect, 99, 1
+	 * @action template_redirect, 99
 	 *
 	 * @todo: optimisation and transients?
 	 */
